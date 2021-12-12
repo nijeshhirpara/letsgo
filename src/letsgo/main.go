@@ -18,22 +18,24 @@ func main() {
 
 	// load .env file
 	err := godotenv.Load(".env")
-
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
 
+	// connect to the database
 	database.Connect(os.Getenv("DBPATH"))
 	if err := database.DB.AutoMigrate(&model.Company{}, &model.Team{}, &model.User{}); err != nil {
 		panic(err)
 	}
 
+	// create context
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	host := os.Getenv("HOST") + ":" + os.Getenv("PORT")
-
+	// register routes
 	router := route.RegisterRoutes(ctx)
 
+	// start server
+	host := os.Getenv("HOST") + ":" + os.Getenv("PORT")
 	log.Fatal(http.ListenAndServe(host, handlers.LoggingHandler(os.Stdout, router)))
 }
