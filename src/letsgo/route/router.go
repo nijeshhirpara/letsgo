@@ -41,5 +41,9 @@ func (h *Router) RegisterRoutes(ctx context.Context) *mux.Router {
 	apiRouter.HandleFunc("/company/{id}/user", h.apiHandler.CreateUser).Methods("POST")
 	apiRouter.HandleFunc("/company/{id}/user/{userid}/teams", h.apiHandler.AddUserToTeams).Methods("POST")
 
+	// Task API endpoints
+	apiRouter.HandleFunc("/company/{id}/team/{teamid}/tasks/list", h.apiHandler.ListTasksByTeam).Methods("GET")
+	apiRouter.HandleFunc("/company/{id}/team/{teamid}/tasks", h.apiHandler.CreateTask).Methods("POST")
+
 	return r
 }

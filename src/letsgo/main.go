@@ -26,7 +26,7 @@ func main() {
 
 	// connect to the database
 	db := database.Connect(os.Getenv("DBPATH"))
-	if err := db.AutoMigrate(&models.Company{}, &models.Team{}, &models.User{}); err != nil {
+	if err := db.AutoMigrate(&models.Company{}, &models.Team{}, &models.User{}, &models.Task{}); err != nil {
 		panic(err)
 	}
 
@@ -34,9 +34,10 @@ func main() {
 	companyRepo := repositories.NewCompanyRepo(db)
 	teamRepo := repositories.NewTeamRepo(db)
 	userRepo := repositories.NewUserRepo(db)
+	taskRepo := repositories.NewTaskRepo(db)
 
 	// Initiate controllers
-	h := api.NewBaseHandler(companyRepo, teamRepo, userRepo)
+	h := api.NewBaseHandler(companyRepo, teamRepo, userRepo, taskRepo)
 
 	// Initiate router
 	r := route.NewRouter(h)

@@ -9,13 +9,14 @@ import (
 
 // BaseHandler will hold everything that controller needs
 type BaseHandler struct {
-	CHandler *CompanyHandler
-	THandler *TeamHandler
-	UHandler *UserHandler
+	CHandler   *CompanyHandler
+	THandler   *TeamHandler
+	UHandler   *UserHandler
+	TskHandler *TaskHandler
 }
 
 // NewBaseHandler returns a new BaseHandler
-func NewBaseHandler(companyRepo models.CompanyRepository, teamRepo models.TeamRepository, userRepo models.UserRepository) *BaseHandler {
+func NewBaseHandler(companyRepo models.CompanyRepository, teamRepo models.TeamRepository, userRepo models.UserRepository, taskRepo models.TaskRepository) *BaseHandler {
 	return &BaseHandler{
 		CHandler: &CompanyHandler{
 			companyRepo: companyRepo,
@@ -25,6 +26,9 @@ func NewBaseHandler(companyRepo models.CompanyRepository, teamRepo models.TeamRe
 		},
 		UHandler: &UserHandler{
 			userRepo: userRepo,
+		},
+		TskHandler: &TaskHandler{
+			taskRepo: taskRepo,
 		},
 	}
 }

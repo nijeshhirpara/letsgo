@@ -18,7 +18,7 @@ func NewUserRepo(db *gorm.DB) *UserRepo {
 	}
 }
 
-// CreateUser creats an user
+// CreateUser creats a user
 func (uRepo *UserRepo) CreateUser(company models.Company, user models.User) error {
 	user.Company = company
 	res := uRepo.db.Create(&user)
