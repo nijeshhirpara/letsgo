@@ -33,9 +33,10 @@ func main() {
 	// Create repos
 	companyRepo := repositories.NewCompanyRepo(db)
 	teamRepo := repositories.NewTeamRepo(db)
+	userRepo := repositories.NewUserRepo(db)
 
 	// Initiate controllers
-	h := api.NewBaseHandler(companyRepo, teamRepo)
+	h := api.NewBaseHandler(companyRepo, teamRepo, userRepo)
 
 	// Initiate router
 	r := route.NewRouter(h)

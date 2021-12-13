@@ -9,7 +9,14 @@ type User struct {
 	Name      string
 	Email     string `gorm:"unique"`
 	Password  string
-	CompanyID uint
-	Company   Company `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	CompanyID uint    `json:"-"`
+	Company   Company `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"-"`
 	Teams     []Team  `gorm:"many2many:user_teams;"`
+}
+
+// UserRepository interface
+type UserRepository interface {
+	ListUsersByCompany(companyID uint) (users []User)
+	CreateUser(company Company, u User) error
+	FindUserByEmail(email string) (user User, err error)
 }

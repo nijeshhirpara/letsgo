@@ -52,7 +52,7 @@ func (b *BaseHandler) ListTeams(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Retrive teams for the given company
-	response.Data = b.THandler.teamRepo.ListTeamsByCompany(uint(companyID))
+	response.Data = b.THandler.teamRepo.ListTeamsByCompany(company.ID)
 	SendJsonResponse(w, response)
 	return
 }

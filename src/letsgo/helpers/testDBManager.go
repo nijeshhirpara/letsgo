@@ -20,6 +20,11 @@ var TestTm models.Team = models.Team{
 	Description: "This is the Test Team 1",
 }
 
+var TestUsr models.User = models.User{
+	Name:  "Test User 1",
+	Email: "testuser1@letsgo.com",
+}
+
 func PrepareTestDB() *gorm.DB {
 	// load .env file
 	err := godotenv.Load("../.env.test")

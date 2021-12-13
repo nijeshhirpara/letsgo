@@ -11,16 +11,20 @@ import (
 type BaseHandler struct {
 	CHandler *CompanyHandler
 	THandler *TeamHandler
+	UHandler *UserHandler
 }
 
 // NewBaseHandler returns a new BaseHandler
-func NewBaseHandler(companyRepo models.CompanyRepository, teamRepo models.TeamRepository) *BaseHandler {
+func NewBaseHandler(companyRepo models.CompanyRepository, teamRepo models.TeamRepository, userRepo models.UserRepository) *BaseHandler {
 	return &BaseHandler{
 		CHandler: &CompanyHandler{
 			companyRepo: companyRepo,
 		},
 		THandler: &TeamHandler{
 			teamRepo: teamRepo,
+		},
+		UHandler: &UserHandler{
+			userRepo: userRepo,
 		},
 	}
 }
