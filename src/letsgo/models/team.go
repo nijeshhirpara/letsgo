@@ -15,4 +15,5 @@ type Team struct {
 type TeamRepository interface {
 	ListTeamsByCompany(companyID uint) (teams []Team)
 	FindCompanyTeamByName(companyID uint, name string) (t Team, err error)
+	FindTeamByID(teamID uint) (t Team, err error)
 }

@@ -39,7 +39,17 @@ func (tRepo *TeamRepo) FindCompanyTeamByName(companyID uint, name string) (t mod
 		err = result.Error
 	}
 
-	log.Println("result", t)
+	return
+}
+
+// FindTeamByID retrives a team by ID
+func (tRepo *TeamRepo) FindTeamByID(teamID uint) (t models.Team, err error) {
+	result := tRepo.db.First(&t, teamID)
+
+	if result.Error != nil {
+		log.Println(result.Error.Error())
+		err = result.Error
+	}
 
 	return
 }
