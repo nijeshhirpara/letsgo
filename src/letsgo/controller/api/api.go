@@ -2,9 +2,28 @@ package api
 
 import (
 	"encoding/json"
+	"letsgo/models"
 	"log"
 	"net/http"
 )
+
+// BaseHandler will hold everything that controller needs
+type BaseHandler struct {
+	CHandler *CompanyHandler
+	THandler *TeamHandler
+}
+
+// NewBaseHandler returns a new BaseHandler
+func NewBaseHandler(companyRepo models.CompanyRepository, teamRepo models.TeamRepository) *BaseHandler {
+	return &BaseHandler{
+		CHandler: &CompanyHandler{
+			companyRepo: companyRepo,
+		},
+		THandler: &TeamHandler{
+			teamRepo: teamRepo,
+		},
+	}
+}
 
 type SuccessResponse struct {
 	Status string `json:"status"`

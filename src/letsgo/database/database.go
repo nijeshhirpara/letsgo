@@ -5,13 +5,11 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
-
-func Connect(dbpath string) {
-	_db, err := gorm.Open(sqlite.Open(dbpath), &gorm.Config{})
+// Connect opens a connection to the database
+func Connect(dbpath string) *gorm.DB {
+	db, err := gorm.Open(sqlite.Open(dbpath), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
-
-	DB = _db
+	return db
 }

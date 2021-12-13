@@ -12,13 +12,28 @@ var (
 	apiRouter = router.PathPrefix("/v1").Subrouter()
 )
 
-func RegisterRoutes(ctx context.Context) *mux.Router {
+type Router struct {
+	apiHandler *api.BaseHandler
+}
+
+func NewRouter(h *api.BaseHandler) *Router {
+	return &Router{
+		apiHandler: h,
+	}
+}
+
+func (h *Router) RegisterRoutes(ctx context.Context) *mux.Router {
 	r := mux.NewRouter()
 
 	apiRouter = r.PathPrefix("/api/v1").Subrouter()
 
-	apiRouter.HandleFunc("/company/list", api.ListCompanies).Methods("GET")
-	apiRouter.HandleFunc("/company", api.CreateCompany).Methods("POST")
+	// Company API endpoints
+	apiRouter.HandleFunc("/company/list", h.apiHandler.ListCompanies).Methods("GET")
+	apiRouter.HandleFunc("/company", h.apiHandler.CreateCompany).Methods("POST")
+
+	// Team API endpoints
+	apiRouter.HandleFunc("/company/{id}/team/list", h.apiHandler.ListTeams).Methods("GET")
+	apiRouter.HandleFunc("/company/{id}/team", h.apiHandler.CreateTeam).Methods("POST")
 
 	return r
 }

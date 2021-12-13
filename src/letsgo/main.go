@@ -1,8 +1,10 @@
 package main
 
 import (
+	"letsgo/controller/api"
 	"letsgo/database"
-	"letsgo/model"
+	"letsgo/models"
+	"letsgo/repositories"
 	"letsgo/route"
 	"log"
 	"net/http"
@@ -23,17 +25,27 @@ func main() {
 	}
 
 	// connect to the database
-	database.Connect(os.Getenv("DBPATH"))
-	if err := database.DB.AutoMigrate(&model.Company{}, &model.Team{}, &model.User{}); err != nil {
+	db := database.Connect(os.Getenv("DBPATH"))
+	if err := db.AutoMigrate(&models.Company{}, &models.Team{}, &models.User{}); err != nil {
 		panic(err)
 	}
+
+	// Create repos
+	companyRepo := repositories.NewCompanyRepo(db)
+	teamRepo := repositories.NewTeamRepo(db)
+
+	// Initiate controllers
+	h := api.NewBaseHandler(companyRepo, teamRepo)
+
+	// Initiate router
+	r := route.NewRouter(h)
 
 	// create context
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// register routes
-	router := route.RegisterRoutes(ctx)
+	router := r.RegisterRoutes(ctx)
 
 	// start server
 	host := os.Getenv("HOST") + ":" + os.Getenv("PORT")
